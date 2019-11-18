@@ -3,30 +3,39 @@ Se è <= 5 il quadrato diventa giallo,
   se è > di 5 il quadrato diventa verde.
 Il numero ottenuto appare al centro del quadrato */
 
+var $curCircle;
+
+function getRandomNumber() {
+  $.ajax({
+    url: "https://flynn.boolean.careers/exercises/api/random/int ",
+    method: "GET",
+    success: function (data) {
+      console.log('success', data);
+      var rndNum = data.response;
+      console.log('data-response', rndNum);
+      showNumColor(rndNum);
+    },
+    error: function (error) {
+      console.log("error" , error);
+    }
+  });
+}
+
+function showNumColor(num) {
+  $curCircle.text(num);
+  if (num <= 5) {
+    $curCircle.css("background-color", "yellow");
+  } else if (num > 5) {
+    $curCircle.css("background-color", "green");
+  }
+}
+
 $(document).ready(function () {
 
   $('.circle').on('click', function () {
-    var $curCircle = $(this); //salvo relativo valore this current circle per poterlo usare all'interno ajax
+    $curCircle = $(this); //salvo relativo valore this in var globale
 
-    $.ajax({
-      url: "https://flynn.boolean.careers/exercises/api/random/int ",
-      method: "GET",
-      success: function (data) {
-        // console.log(data);
-        var rndNum = data.response;
-        $curCircle.text(rndNum);
-        if (rndNum <= 5) {
-          $curCircle.css("background-color", "yellow");
-        } else if (rndNum > 5) {
-          $curCircle.css("background-color", "green");
-        }
-      },
-      error: function (richiesta, stato) {
-        console.log("c'è stato un errore: " + stato);
-
-      }
-
-    });
+    getRandomNumber();
 
   })
 
