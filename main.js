@@ -3,9 +3,7 @@ Se è <= 5 il quadrato diventa giallo,
   se è > di 5 il quadrato diventa verde.
 Il numero ottenuto appare al centro del quadrato */
 
-var $curCircle;
-
-function getRandomNumber() {
+function getRandomNumber(clickEl) {
   $.ajax({
     url: "https://flynn.boolean.careers/exercises/api/random/int ",
     method: "GET",
@@ -13,7 +11,7 @@ function getRandomNumber() {
       console.log('success', data);
       var rndNum = data.response;
       console.log('data-response', rndNum);
-      showNumColor(rndNum);
+      showNumColor(clickEl, rndNum);
     },
     error: function (error) {
       console.log("error" , error);
@@ -21,21 +19,21 @@ function getRandomNumber() {
   });
 }
 
-function showNumColor(num) {
-  $curCircle.text(num);
+function showNumColor(clickEl, num) {
+  clickEl.text(num);
   if (num <= 5) {
-    $curCircle.css("background-color", "yellow");
+    clickEl.css("background-color", "yellow");
   } else if (num > 5) {
-    $curCircle.css("background-color", "green");
+    clickEl.css("background-color", "green");
   }
 }
 
 $(document).ready(function () {
 
   $('.circle').on('click', function () {
-    $curCircle = $(this); //salvo relativo valore this in var globale
+    var $clickEl = $(this); 
 
-    getRandomNumber();
+    getRandomNumber($clickEl);
 
   })
 
